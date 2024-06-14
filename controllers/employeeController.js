@@ -46,6 +46,8 @@ const getEmployeesList = async (req, res) => {
   }
 };
 
+//@desc  to get a employee details
+//@route GET /api/employees/:id
 const getEmployeeDetails = async (req, res) => {
   try {
     const EmployeeDetails = await Employees.findById(req.params.id);
@@ -58,8 +60,45 @@ const getEmployeeDetails = async (req, res) => {
   }
 };
 
+//@desc update employee details
+//@route PUT /api/employees/:id
+const updateEmployeeDetails = async (req, res) => {
+  try {
+    const employee = await Employees.findById(req.params.id);
+    if (!employee) {
+      return res.status(404).json("Employee not found!");
+    }
+
+    const { first_name, last_name, email, phone } = req.body;
+    console.log(req.body);
+
+    if (!first_name || !last_name || !email || !phone) {
+      return res.status(400).json("All field are mendatory !");
+    }
+
+    if (email !== employee.email) {
+      return res.status(403).json("You can't update employee email");
+    }
+    const updateEmployee = await Employees.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).json({
+      updateEmployee,
+      message: "Employee details has been Updated!",
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 module.exports = {
   createEmployee,
   getEmployeesList,
   getEmployeeDetails,
+  updateEmployeeDetails,
 };
