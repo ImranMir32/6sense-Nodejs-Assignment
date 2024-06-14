@@ -38,7 +38,7 @@ const createEmployee = async (req, res) => {
 const getEmployeesList = async (req, res) => {
   try {
     const EmployeesList = await Employees.find({}).select(
-      "first_name last_name isBlocked"
+      "first_name last_name isBlock"
     );
     res.status(200).json(EmployeesList);
   } catch (error) {
@@ -119,10 +119,26 @@ const blockUnblockEmployee = async (req, res) => {
   }
 };
 
+const deleteEmployee = async (req, res) => {
+  try {
+    const employee = await Employees.findById(req.params.id);
+
+    if (!employee) {
+      return res.status(404).json("Employee not found!");
+    }
+
+    await Employees.deleteOne({ _id: req.params.id });
+    res.status(200).json(`Employee with ID ${req.params.id} has been deleted`);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 module.exports = {
   createEmployee,
   getEmployeesList,
   getEmployeeDetails,
   updateEmployeeDetails,
   blockUnblockEmployee,
+  deleteEmployee,
 };
