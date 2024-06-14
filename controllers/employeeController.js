@@ -106,7 +106,9 @@ const blockUnblockEmployee = async (req, res) => {
     }
 
     let { isBlock } = req.body;
-    isBlock = isBlock === "true";
+    if (typeof isBlock !== "boolean") {
+      isBlock = isBlock === "true";
+    }
 
     employee.isBlock = isBlock;
     await employee.save();
