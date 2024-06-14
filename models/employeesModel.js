@@ -19,7 +19,7 @@ const employeesSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add the phone number"],
     },
-    isBlocked: {
+    isBlock: {
       type: Boolean,
       default: false,
     },

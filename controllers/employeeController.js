@@ -96,9 +96,33 @@ const updateEmployeeDetails = async (req, res) => {
   }
 };
 
+//@desc Block or unblock an employee
+//@route PATCH /api/employees/:id
+const blockUnblockEmployee = async (req, res) => {
+  try {
+    const employee = await Employees.findById(req.params.id);
+    if (!employee) {
+      return res.status(404).json("Employee not found!");
+    }
+
+    let { isBlock } = req.body;
+    isBlock = isBlock === "true";
+
+    employee.isBlock = isBlock;
+    await employee.save();
+
+    res
+      .status(200)
+      .json(`Employee has been ${isBlock ? "blocked" : "unblocked"}`);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 module.exports = {
   createEmployee,
   getEmployeesList,
   getEmployeeDetails,
   updateEmployeeDetails,
+  blockUnblockEmployee,
 };
