@@ -19,6 +19,10 @@ const usersSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add the phone number"],
     },
+    isBlock: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

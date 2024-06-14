@@ -1,7 +1,7 @@
 const Users = require("../models/employeesModel");
 
 //@desc  create an Employee
-//@route POST /api/employee/register
+//@route POST /api/employees/register
 const createEmployee = async (req, res) => {
   try {
     const { first_name, last_name, email, phone } = req.body;
@@ -33,6 +33,18 @@ const createEmployee = async (req, res) => {
   }
 };
 
+//@desc  to get all emplopyee
+//@route GET /api/employees/
+const getAllEmployees = async (req, res) => {
+  try {
+    const allEmployee = await Users.find({});
+    res.status(200).json(allEmployee);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 module.exports = {
   createEmployee,
+  getAllEmployees,
 };
