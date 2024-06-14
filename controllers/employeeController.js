@@ -1,4 +1,4 @@
-const Users = require("../models/employeesModel");
+const Employees = require("../models/employeesModel");
 
 //@desc  create an Employee
 //@route POST /api/employees/register
@@ -10,20 +10,20 @@ const createEmployee = async (req, res) => {
     if (!first_name || !last_name || !email || !phone) {
       return res.status(400).json("All field are mendatory !");
     }
-    const employeeAvailable = await Users.findOne({ email });
+    const employeeAvailable = await Employees.findOne({ email });
     if (employeeAvailable) {
       return res.status(400).json("Mail is already used !");
     }
 
-    const newUser = new Users({
+    const newEmployee = new Employees({
       first_name,
       last_name,
       email,
       phone,
     });
-    await newUser.save();
+    await newEmployee.save();
 
-    if (newUser) {
+    if (newEmployee) {
       return res.status(201).json("Employee has been created");
     } else {
       return res.status(400).json("Employee data is not valid !");
@@ -33,12 +33,14 @@ const createEmployee = async (req, res) => {
   }
 };
 
-//@desc  to get all emplopyee
+//@desc  to get all employees list
 //@route GET /api/employees/
-const getAllEmployees = async (req, res) => {
+const getEmployeesList = async (req, res) => {
   try {
-    const allEmployee = await Users.find({});
-    res.status(200).json(allEmployee);
+    const EmployeesList = await Employees.find({}).select(
+      "first_name last_name isBlocked"
+    );
+    res.status(200).json(EmployeesList);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -46,5 +48,5 @@ const getAllEmployees = async (req, res) => {
 
 module.exports = {
   createEmployee,
-  getAllEmployees,
+  getEmployeesList,
 };

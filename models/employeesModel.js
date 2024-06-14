@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const usersSchema = mongoose.Schema(
+const employeesSchema = mongoose.Schema(
   {
     first_name: {
       type: String,
@@ -19,7 +19,7 @@ const usersSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add the phone number"],
     },
-    isBlock: {
+    isBlocked: {
       type: Boolean,
       default: false,
     },
@@ -29,4 +29,4 @@ const usersSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Users", usersSchema);
+module.exports = mongoose.model("Employees", employeesSchema);

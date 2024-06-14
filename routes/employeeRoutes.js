@@ -3,11 +3,11 @@ const router = express.Router();
 
 const {
   createEmployee,
-  getAllEmployees,
+  getEmployeesList,
 } = require("../controllers/employeeController");
 
 router.post("/register", createEmployee);
 
-router.get("/", getAllEmployees);
+router.get("/", getEmployeesList);
 
 module.exports = router;
